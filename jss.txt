@@ -1,0 +1,217 @@
+final jss
+// Simulating a simple user database
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+// DOM Elements
+const registerSection = document.getElementById("registerSection");
+const loginSection = document.getElementById("loginSection");
+const appSection = document.getElementById("appSection");
+const logoutButton = document.getElementById("logoutButton");
+
+// Retailers and Products data (hardcoded)
+const categoriesProducts = [
+    { Category: "Spices", ProductName: "Turmeric Powder", Price: 120 },
+    { Category: "Spices", ProductName: "Chili Powder", Price: 80 },
+    { Category: "Spices", ProductName: "Coriander Powder", Price: 200 },
+    { Category: "Spices", ProductName: "Garam Masala", Price: 150 },
+    { Category: "Spices", ProductName: "Cumin Seeds", Price: 90 }
+];
+
+const retailers = [
+    { RetailerID: 1, RetailerName: "Kumar Traders", RetailerAddress: "MG Road, Bangalore" },
+    { RetailerID: 2, RetailerName: "Mehta Store", RetailerAddress: "Indiranagar, Bangalore" },
+    { RetailerID: 3, RetailerName: "Bangalore Mart", RetailerAddress: "Whitefield, Bangalore" },
+    { RetailerID: 4, RetailerName: "City Grocers", RetailerAddress: "Koramangala, Bangalore" },
+    { RetailerID: 5, RetailerName: "Green Basket", RetailerAddress: "Jayanagar, Bangalore" }
+];
+
+// Arrays to store the orders, retailers, and products
+let orders = [];
+
+// Show Registration Section
+document.getElementById("showRegister").addEventListener("click", function () {
+  loginSection.style.display = "none";
+  registerSection.style.display = "block";
+});
+
+// Show Login Section
+document.getElementById("showLogin").addEventListener("click", function () {
+  registerSection.style.display = "none";
+  loginSection.style.display = "block";
+});
+
+// Registration Form Submission
+document.getElementById("registerForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const phone = document.getElementById("registerPhone").value;
+  const newPassword = document.getElementById("newPassword").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if (users.find(user => user.phone === phone)) {
+    alert("User already registered with this phone number!");
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  users.push({ phone, password: newPassword });
+  localStorage.setItem("users", JSON.stringify(users));
+  alert("Registration successful! Please login.");
+  registerSection.style.display = "none";
+  loginSection.style.display = "block";
+});
+
+// Login Form Submission
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const phone = document.getElementById("loginPhone").value;
+  const password = document.getElementById("loginPassword").value;
+
+  const user = users.find(user => user.phone === phone);
+
+  if (!user) {
+    alert("User is not registered. Please register first.");
+    return;
+  }
+
+  if (user.password !== password) {
+    alert("Incorrect password. Please try again.");
+    return;
+  }
+
+  alert("Login successful!");
+  loginSection.style.display = "none";
+  appSection.style.display = "block";
+});
+
+// Logout Functionality
+logoutButton.addEventListener("click", function () {
+  appSection.style.display = "none";
+  loginSection.style.display = "block";
+});
+
+// Function to handle the retailer dropdown update
+function updateRetailerOptions() {
+  const retailerSelect = document.getElementById("retailerName");
+  retailerSelect.innerHTML = "<option value='' disabled selected>Select Retailer</option>";
+  retailers.forEach(retailer => {
+    const option = document.createElement("option");
+    option.value = retailer.RetailerName;
+    option.textContent = retailer.RetailerName;
+    retailerSelect.appendChild(option);
+  });
+}
+
+// Function to handle the product dropdown update
+function updateProductOptions() {
+  const productSelect = document.getElementById("productName");
+  productSelect.innerHTML = "<option value='' disabled selected>Select Product</option>";
+  categoriesProducts.forEach(product => {
+    const option = document.createElement("option");
+    option.value = product.ProductName;
+    option.textContent = `${product.ProductName} - ₹${product.Price}`;
+    productSelect.appendChild(option);
+  });
+}
+
+// Initializing dropdown options
+updateRetailerOptions();
+updateProductOptions();
+
+// Order Form Submission
+document.getElementById("orderForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const retailer = document.getElementById("retailerName").value;
+  const product = document.getElementById("productName").value;
+  const quantity = document.getElementById("quantity").value;
+  const paymentMethod = document.getElementById("paymentMethod").value;
+  const cashPaid = document.getElementById("cashPaid").value;
+
+  if (!retailer || !product || !quantity || !paymentMethod) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  // Find the selected product price
+  const selectedProduct = categoriesProducts.find(p => p.ProductName === product);
+  const totalAmount = selectedProduct ? selectedProduct.Price * quantity : 0;
+
+  const order = {
+    retailer,
+    product,
+    quantity,
+    paymentMethod,
+    cashPaid: paymentMethod === "Cash" ? cashPaid : "N/A",
+    totalAmount,
+    status: "Pending",
+    action: "Complete",
+    generateBill: "Generate Bill"
+  };
+
+  orders.push(order); // Add order to the orders array
+  renderOrdersTable(); // Refresh the orders table
+});
+
+// Function to render orders table
+function renderOrdersTable() {
+  const tableBody = document.getElementById("ordersTable").getElementsByTagName("tbody")[0];
+  tableBody.innerHTML = ""; // Clear existing rows
+
+  orders.forEach((order, index) => {
+    const row = tableBody.insertRow();
+    row.innerHTML = `
+      <td>${order.retailer}</td>
+      <td>${order.product}</td>
+      <td>${order.quantity}</td>
+      <td>${order.paymentMethod}</td>
+      <td>${order.cashPaid}</td>
+      <td>${order.status}</td>
+      <td><button onclick="completeOrder(${index})">${order.action}</button></td>
+      <td><button onclick="generateBill(${index})">${order.generateBill}</button></td>
+    `;
+  });
+}
+
+// Function to mark order as completed
+function completeOrder(index) {
+  orders[index].status = "Completed";
+  orders[index].action = "N/A"; // Disable action button after completion
+  renderOrdersTable(); // Refresh the orders table
+}
+
+// Function to generate bill for an order
+function generateBill(index) {
+  const order = orders[index];
+  const billWindow = window.open('', '_blank', 'width=600,height=400');
+
+  // Generate the bill content
+  const billContent = `
+    <html>
+    <head>
+      <title>Order Bill</title>
+    </head>
+    <body>
+      <h1>Bill for Order</h1>
+      <table border="1">
+        <tr><th>Retailer</th><td>${order.retailer}</td></tr>
+        <tr><th>Product</th><td>${order.product}</td></tr>
+        <tr><th>Quantity</th><td>${order.quantity}</td></tr>
+        <tr><th>Price per Unit</th><td>₹${order.totalAmount / order.quantity}</td></tr>
+        <tr><th>Total Amount</th><td>₹${order.totalAmount}</td></tr>
+        <tr><th>Payment Method</th><td>${order.paymentMethod}</td></tr>
+        <tr><th>Cash Paid</th><td>${order.cashPaid}</td></tr>
+        <tr><th>Status</th><td>${order.status}</td></tr>
+      </table>
+      <br>
+      <p>Thank you for your order!</p>
+    </body>
+    </html>
+  `;
+
+  // Write the content to the bill window
+  billWindow.document.write(billContent);
+  billWindow.document.close();
+}

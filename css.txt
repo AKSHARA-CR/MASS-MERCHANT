@@ -1,0 +1,157 @@
+final css 
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #e6f7ff; /* Light blue background */
+}
+
+h1 {
+  text-align: center;
+  color: #004d66; /* Dark blue for contrast */
+}
+
+section {
+  margin: 0 auto;
+  max-width: 90%; /* Adjust for smaller screen sizes */
+  padding: 20px;
+  background-color: #ffffff; /* White for clean sections */
+  border: 1px solid #99d6ff; /* Light blue border */
+  border-radius: 12px; /* Slightly larger rounding for modern design */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+form input, form button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 14px;
+  border: 1px solid #99d6ff; /* Light blue borders */
+  border-radius: 6px; /* Soft corners */
+}
+
+button {
+  background-color: #00563f; /* Castleton Green */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px; /* Fully rounded buttons */
+  padding: 12px; /* Extra padding for a more prominent look */
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for button depth */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth effects */
+}
+
+button:hover {
+  background-color: #004a36; /* Slightly darker Castleton Green */
+  transform: scale(1.05); /* Subtle scaling effect */
+}
+
+button:disabled {
+  background-color: #cccccc; /* Disabled button */
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+a {
+  color: #004d66; /* Dark blue links */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: #ff3333; /* Red for error messages */
+  font-size: 14px;
+  margin-top: -10px;
+}
+
+h2 {
+  color: #004d66; /* Consistent dark blue for headings */
+}
+
+form, table {
+  width: 100%;
+  margin: 20px 0;
+}
+
+form input, form select, form button {
+  margin: 10px 0;
+  padding: 8px;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: fixed; /* Ensure text stays within bounds */
+  word-wrap: break-word; /* Wrap long text in table cells */
+}
+
+table, th, td {
+  border: 1px solid #99d6ff; /* Light blue borders */
+}
+
+th {
+  background-color: #004d66; /* Dark blue header background */
+  color: white; /* White text for contrast */
+  padding: 8px;
+}
+
+td {
+  padding: 8px;
+  text-align: left;
+  color: #00334d; /* Darker blue for cell text */
+}
+
+/* Add scrolling to the Orders Table Section */
+section#ordersTableSection {
+  max-height: 400px; /* Adjust as per your needs */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #99d6ff; /* Optional: styling for the scrollable section */
+  border-radius: 8px;
+  background-color: #ffffff; /* Ensure the background matches */
+}
+
+/* Optional: Adding a shadow or extra border if needed for a better look */
+section#ordersTableSection {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  section {
+    max-width: 100%; /* Full-width sections for smaller screens */
+    padding: 15px;
+  }
+
+  form input, form button {
+    padding: 8px; /* Slightly smaller padding for smaller screens */
+    font-size: 12px;
+  }
+
+  table {
+    font-size: 12px; /* Smaller table font for readability */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1, h2 {
+    font-size: 18px; /* Smaller headings for very small screens */
+  }
+
+  form input, form button {
+    padding: 6px; /* Adjust padding for mobile */
+    font-size: 10px;
+  }
+
+  table {
+    font-size: 10px; /* Table font size reduced */
+  }
+}
+

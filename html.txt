@@ -1,0 +1,108 @@
+final html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASS MERCHANT</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<!-- Registration Section -->
+<section id="registerSection" style="display: none;">
+    <h1>MASS MERCHANT</h1>
+    <h2>Register</h2>
+    <form id="registerForm">
+        <label for="registerPhone">Phone Number:</label>
+        <input type="tel" id="registerPhone" required pattern="[0-9]{10}" placeholder="Enter 10-digit phone number"><br><br>
+
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" required minlength="6" placeholder="Enter password"><br><br>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required minlength="6" placeholder="Re-enter password"><br><br>
+
+        <button type="submit">Register</button>
+    </form>
+    <p>Already registered? <a href="#" id="showLogin">Login here</a></p>
+</section>
+
+<!-- Login Section -->
+<section id="loginSection">
+    <h1>MASS MERCHANT</h1>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label for="loginPhone">Phone Number:</label>
+        <input type="tel" id="loginPhone" required pattern="[0-9]{10}" placeholder="Enter your phone number"><br><br>
+
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" required minlength="6" placeholder="Enter password"><br><br>
+
+        <button type="submit">Login</button>
+    </form>
+    <p>Not registered yet? <a href="#" id="showRegister">Register here</a></p>
+</section>
+
+<!-- Main Application Section -->
+<section id="appSection" style="display: none;">
+    <h1>Welcome to MASS MERCHANT</h1>
+    <button id="logoutButton">Logout</button>
+
+    <!-- Order Form Section -->
+    <section>
+        <h2>Order Entry</h2>
+        <form id="orderForm">
+            <label for="retailerName">Retailer Name:</label>
+            <select id="retailerName" required>
+                <option value="" disabled selected>Select Retailer</option>
+            </select><br><br>
+
+            <label for="productName">Product Name:</label>
+            <select id="productName" required>
+                <option value="" disabled selected>Select Product</option>
+            </select><br><br>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" min="1" required><br><br>
+
+            <label for="paymentMethod">Payment Method:</label>
+            <select id="paymentMethod" required>
+                <option value="" disabled selected>Select Payment Method</option>
+                <option value="Cash">Cash</option>
+                <option value="Card">Card</option>
+            </select><br><br>
+
+            <label for="cashPaid">Cash Paid (if Cash payment):</label>
+            <input type="number" id="cashPaid" min="0" step="0.01"><br><br>
+
+            <button type="submit">Submit Order</button>
+        </form>
+    </section>
+
+    <!-- Orders Table Section with Scrollable Container -->
+    <section id="ordersTableSection">
+        <h2>Orders</h2>
+        <table id="ordersTable">
+            <thead>
+                <tr>
+                    <th>Retailer Name</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Payment Method</th>
+                    <th>Cash Paid</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <th>Generate Bill</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+</section>
+
+<script src="script.jss"></script>
+
+</body>
+</html>
